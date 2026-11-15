@@ -1,0 +1,25 @@
+# Supervised, latent 32.
+name: supervised_z32
+model:
+  type: supervised              # vae | supervised
+  image_size: 64
+  latent_dim: 32
+  base_channels: 32        # 32,64,128,256 blocks at 64px; extra 256 block per doubling above 64
+  smile_prior_mean: 2.0    # supervised only (m)
+  adv_hidden: 128          # supervised only
+loss:
+  sigma: 1.0               # fixed decoder std; recon = SSE / (2 sigma^2) per image
+  beta: 1.0
+  kl_warmup_epochs: 5
+  adv_weight: 100.0          # supervised only; 0 disables the adversary
+  adv_warmup_epochs: 5
+train:
+  data_root: data/celeba_64
+  out_dir: runs
+  epochs: 20
+  batch_size: 128
+  lr: 0.001
+  seed: 0
+  subset: null
+  num_workers: 0
+  flip: true
